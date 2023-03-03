@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="common/admin_layout :: cssAdmin"></head>
+<!--
+`body` tag options:
+
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+
+  * sidebar-collapse
+  * sidebar-mini
+-->
+<body class="sidebar-mini layout-fixed sidebar-collapse layout-navbar-fixed">
+<div class="wrapper">
+	
+	<header th:replace="common/admin_layout :: headerAdmin"></header>
+		  <div class="content-wrapper">
+		  
+	   	  </div>		
+	<footer th:replace="common/admin_layout :: footerAdmin"></footer>
+	<script>
+      var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+      });       
+      Toast.fire({
+        icon: 'success',
+        title: 'Login Admin Success!.'
+      })
+  </script>
+</div>
+</body>
+</html>

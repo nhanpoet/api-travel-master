@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="common/admin_layout :: cssAdmin">
+</head>
+<!--
+`body` tag options:
+
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+
+  * sidebar-collapse
+  * sidebar-mini
+-->
+<body class="sidebar-mini layout-fixed sidebar-collapse layout-navbar-fixed">
+<div class="wrapper">
+	
+	<header th:replace="common/admin_layout :: headerAdmin"></header>
+		  <div class="content-wrapper">
+              <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Enterprise List</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/enterprise_list">Enterprise</a></li>
+                </ol>
+              </div>
+            </div>
+          </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <!-- <div class="card-header">
+                    <h3 class="card-title">Enterprise List</h3>
+                  </div> -->
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Company Name</th>
+                        <!-- <th>Enterprise Type</th> -->
+                        <th>Detail</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="data : ${dataEnterprise}">
+                          <td><span th:text="${data.enCode}"> Code </span></td>
+                          <td><span th:text="${data.enNamecompany}"> Company Name</span></td>
+                          <!-- <td><span th:text="${data.enterprise_type.etName}"> Company Name</span></td> -->
+                          <td><span th:text="${data.enDetail}"> Detail </span></td>
+                          <td><span th:text="${data.enEmail}"> Email </span></td>
+                          <td><span th:text="${data.enPhone}"> Phone </span></td>
+                          <td><span th:text="${data.enAddress}"> Address </span></td>
+                          <td><span th:text="${data.enCountry}"> Country </span></td>
+                          <td>
+                            <span class="text-success" th:if="${data.enStatus} == true">Active</span>
+                            <span class="text-danger" th:if="${data.enStatus} == false">No Active</span>
+                          </td>
+                          <td>
+                            <div class="margin">
+                              <!-- <a th:href="@{/enterprise_edit/{id}(id=${data.enId})}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                              </a>                          -->
+                              <form th:action="@{/enterprise_edit}" th:object="${Enterprise}" method="post">
+                                <input type="hidden" th:value="${data.enId}" name="enId"/><button type="submit" class="btn btn-primary">
+                                  <i class="fas fa-edit"></i> Edit
+                                </button>                                
+                              </form>
+                            </div>
+                          </td>
+                      </tr>
+                      </tbody>
+                      <tfoot>
+                      <tr>
+                        <th>Code</th>
+                        <th>Company Name</th>
+                        <!-- <th>Enterprise Type</th> -->
+                        <th>Detail</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+	   	</div>		
+    <footer th:replace="common/admin_layout :: footerAdmin"></footer>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="dist/js/adminlte.js"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="dist/js/pages/dashboard3.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>

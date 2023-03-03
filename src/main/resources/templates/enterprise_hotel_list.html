@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="common/enterprise/hotel_enterprise_layout :: cssEnterpriseHotel">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+</head>
+<!--
+`body` tag options:
+
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+
+  * sidebar-collapse
+  * sidebar-mini
+-->
+
+<body class="sidebar-mini layout-fixed sidebar-collapse layout-navbar-fixed">
+  <div class="wrapper">
+
+    <header th:replace="common/enterprise/hotel_enterprise_layout :: headerEnterpriseHotel"></header>
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12 col-md-6">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6">
+                <form th:action="@{/hotel_search}" method="post">
+                  <div class="input-group mb-3">
+                    <input type="text" id="roomNumber" name="roomNumber" class="form-control">
+                    <input type="text" hidden name="hsId" th:value="${hsId}">
+                    <input type="text" hidden name="enId" th:value="${enId}">
+                    <span class="input-group-append">
+                      <button type="submit" class="btn btn-info">Search</button>
+                    </span>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Contacts</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+
+
+
+        <!-- Default box -->
+        <div class="card card-solid">
+          <div class="card-body pb-0">
+            <div class="row">
+              <th:block th:each="room : ${RoomHotel}">
+                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                  <div class="card bg-light d-flex flex-fill">
+                    <div class="card-header text-muted border-bottom-0">
+                      <span th:text="${room.roomNumber}"></span>
+                    </div>
+                    <div class="card-body pt-0">
+                      <div class="row">
+                        <div class="col-7">
+                          <h2 class="lead"><b th:text="${room.roomDetail}"></b></h2>
+                          <p class="text-muted text-sm">Type:<b th:text="${room.roomType}"> </b>
+                          </p>
+                          <p class="text-muted text-sm">Description:<b th:text="${room.roomDescription}"> </b>
+                          </p>
+                          <ul class="ml-4 mb-0 fa-ul text-muted">
+                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-user"></i></span>Guest Number:
+                              <span th:text="${room.roomGuestsnumber}"></span>
+                            </li>
+                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-bed"></i></span> Bed Number:
+                              <span th:text="${room.roomBed}"></span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-5 text-center">
+                          <!-- '../../upload/image_room/' +  -->
+                          <img th:src="@{${room.roomImage}}" alt="user-avatar"
+                            class="img-thumbnail" style="height: 150px;">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div th:if="${room.roomStatus == 0}" class="text-right">
+                        <!-- <form th:action="@{/hotel_booking}" method="post">
+                          <a href="#" class="btn btn-sm bg-teal">
+                            <i class="fas fa-edit"></i>View
+                          </a>
+                        </form> -->
+                        <form th:action="@{/hotel_booking}" method="post">
+                          <input type="text" hidden name="roomId" th:value="${room.roomId}">
+                          <input type="text" hidden name="hsId" th:value="${hsId}">
+                          <input type="text" hidden name="enId" th:value="${enId}">
+                          <button href="#" type="submit" class="btn btn-sm btn-primary">
+                            <i class="fas fa-user"></i>Booking
+                          </button>
+                        </form>
+                      </div>
+                      <div th:if="${room.roomStatus == 1}" class="text-right">
+                        <!-- <a href="#" class="btn btn-sm bg-teal float-sm-right">
+                          <i class="fas fa-edit"></i>View
+                        </a> -->
+                        <form th:action="@{/hotel_checkin}" method="post">
+                          <input type="text" hidden name="roomId" th:value="${room.roomId}">
+                          <input type="text" hidden name="hsId" th:value="${hsId}">
+                          <input type="text" hidden name="enId" th:value="${enId}">
+                          <button href="#" type="submit" class="btn btn-sm btn-success float-right">
+                            <i class="fas fa-user"></i>Checkin
+                          </button>
+                        </form>
+                        <!-- <form th:action="@{/hotel_checkin}" method="post">
+                          <input type="text" hidden name="roomId" th:value="${room.roomId}">
+                          <input type="text" hidden name="hsId" th:value="${hsId}">
+                          <input type="text" hidden name="enId" th:value="${enId}">
+                          <button href="#" type="submit" class="btn btn-sm bg-teal float-left">
+                            <i class="fas fa-edit"></i>View
+                          </button>
+                        </form> -->
+                      </div>
+                      <div th:if="${room.roomStatus == 2}" class="text-right">
+                        <form th:action="@{/hotel_checkout}" method="post">
+                          <!-- <button href="#" class="btn btn-sm bg-teal">
+                            <i class="fas fa-edit"></i>View
+                          </button> -->
+                          <input type="text" hidden name="roomId" th:value="${room.roomId}">
+                          <input type="text" hidden name="hsId" th:value="${hsId}">
+                          <input type="text" hidden name="enId" th:value="${enId}">
+                          <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-user"></i> Checkout
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+
+            <!-- <div th:if="${RoomHotel.totalPages > 0}" class="pagination"
+              th:each="pageNumber : ${pageNumbers}">
+              <a th:href="@{/hotel_list(size=${RoomHotel.size}, page=${pageNumber})}"
+                  th:text=${pageNumber}
+                  th:class="${pageNumber==RoomHotel.number + 1} ? active"></a>
+            </div> -->
+            <div class="pagination justify-content-center m-0">
+              <ul class="pagination " th:each="pageNumber : ${pageNumbers}">
+                <li class="paginate_button page-item active">
+                  <a href="#" class="page-link" th:href="@{/hotel_list(size=${RoomHotel.size}, page=${pageNumber})}"
+                    th:text=${pageNumber}></a>
+                </li>
+              </ul>
+            </div>
+
+
+          </div>
+          <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <footer th:replace="common/enterprise/hotel_enterprise_layout :: footerEnterpriseHotel"></footer>
+
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- REQUIRED SCRIPTS -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE -->
+  <script src="dist/js/adminlte.js"></script>
+
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="plugins/chart.js/Chart.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="dist/js/demo.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="dist/js/pages/dashboard3.js"></script>
+
+</body>
+
+</html>

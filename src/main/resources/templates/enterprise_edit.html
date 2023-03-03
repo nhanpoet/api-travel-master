@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="common/admin_layout :: cssAdmin">
+</head>
+
+<body class="sidebar-mini layout-fixed sidebar-collapse layout-navbar-fixed">
+  <div class="wrapper">
+
+    <header th:replace="common/admin_layout :: headerAdmin"></header>
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Enterprise Edit</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Enterprise</a></li>
+                <li class="breadcrumb-item active">Enterprise Add</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <form th:action="@{/enterprise_update}" th:object="${dataEnterpriseDetail}" method="post">
+        <section class="content">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Informational</h3>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputName">Enterprise Code</label>
+                    <input type="text" id="enCode" name="enCode" th:field="*{enCode}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName">Enterprise Company Name</label>
+                    <input type="text" id="enId" name="enId" th:field="*{enId}" hidden class="form-control">
+                    <input type="text" id="enNamecompany" name="enNamecompany" th:field="*{enNamecompany}"
+                      class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDescription">Enterprise Description</label>
+                    <textarea id="enDetail" name="enDetail" th:field="*{enDetail}" class="form-control"
+                      rows="3"></textarea>
+                  </div>
+                  <!-- <div class="form-group">
+                      <label for="inputStatus">Enterprise Type</label>
+                      <select id="inputStatus" class="form-control custom-select" th:field="*{etId}">
+                        <option selected disabled th:value="*{enterprise_type.etId}" th:text="*{enterprise_type.etName}"></option>
+                        <option th:each="option : ${enterprise_types}" th:if="${option.etName} != *{enterprise_type.etName}" th:value="${option.etId}" th:text="${option.etName}"></option>
+                      </select>     
+                    </div> -->
+                  <div class="form-group">
+                    <label for="inputStatus">Enterprise Type</label>
+                    <select class="form-control custom-select" name="etId">
+                      <option selected disabled th:each="typename:${entertype}" th:value="${typename.etId}" th:text="${typename.etName}">
+                      </option>
+                      <option th:each="type:${enterprise_types}" th:value="${type.etId}" th:utext="${type.etName}"
+                        value=""></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputClientCompany">Enterprise Phone</label>
+                    <input type="text" id="enPhone" name="enPhone" th:field="*{enPhone}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputProjectLeader">Enterprise Email</label>
+                    <input type="text" id="enEmail" name="enEmail" th:field="*{enEmail}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputClientCompany">Enterprise Status</label>
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" name="enStatus" th:field="*{enStatus}" class="custom-control-input" id="customSwitch1">
+                      <!-- <label class="custom-control-label" th:if="*{enStatus} == false" for="customSwitch1">No Active</label>
+                        <label class="custom-control-label" th:if="*{enStatus} == true" for="customSwitch1">Active</label> -->
+                      <label id="textbox1" class="custom-control-label" for="customSwitch1"></label>
+                    </div>
+                    <script>
+                      $(document).ready(function () {
+                        if ($('#customSwitch1').is(':checked') == true) {
+                          $('#textbox1').text('Active');
+                        } else {
+                          $('#textbox1').text('No Active');
+                        }
+                        $('#customSwitch1').change(function () {
+                          if (this.checked) {
+                            $('#textbox1').text('Active');
+                          } else {
+                            $('#textbox1').text('No Active');
+                          }
+                        });
+                      });
+                    </script>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <div class="col-md-6">
+              <div class="card card-secondary">
+                <div class="card-header">
+                  <h3 class="card-title">Address</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputEstimatedBudget">Enterprise Address</label>
+                    <textarea type="text" id="enAddress" name="enAddress" th:field="*{enAddress}" rows="6"
+                      class="form-control"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSpentBudget">Enterprise Ward</label>
+                    <input type="text" id="enWard" name="enWard" th:field="*{enWard}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEstimatedDuration">Enterprise District</label>
+                    <input type="text" id="enDistrict" name="enDistrict" th:field="*{enDistrict}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEstimatedDuration">Enterprise Province</label>
+                    <input type="text" id="enProvince" name="" th:field="*{enProvince}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEstimatedDuration">Enterprise Country</label>
+                    <input type="text" id="enCountry" name="enCountry" th:field="*{enCountry}" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEstimatedDuration">Enterprise PostalCode</label>
+                    <input type="text" id="enPostalcode" name="enPostalcode" th:field="*{enPostalcode}"
+                      class="form-control">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- <div class="row">
+            </div> -->
+          <div class="row">
+            <div class="col-sm-6">
+              <a th:href="@{/enterprise_list}" class="btn btn-secondary">Cancel</a>
+              <input type="submit" value="Update" class="btn btn-success">
+            </div>
+            <div class="col-sm-6 ">
+              <!-- <div class="float-sm-right">
+                <a th:href="@{/enterprise_delete}" class="btn btn-danger">Delete</a>
+              </div> -->
+            </div>
+          </div>
+        </section>
+      </form>
+      <!-- /.content -->
+    </div>
+    <footer th:replace="common/admin_layout :: footerAdmin"></footer>
+</body>
+
+</html>
